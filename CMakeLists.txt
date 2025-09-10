@@ -7,15 +7,20 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
-find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 
 add_executable(lambda_publisher ./src/topic/publisher/lambda_publisher.cpp)
-ament_target_dependencies(lambda_publisher rclcpp std_msgs)
+target_link_libraries(lambda_publisher PUBLIC 
+    ${std_msgs_TARGETS} 
+    rclcpp::rclcpp
+)
 
 add_executable(lambda_subscriber ./src/topic/subscriber/lambda_subscriber.cpp)
-ament_target_dependencies(lambda_subscriber rclcpp std_msgs)
+target_link_libraries(lambda_subscriber PUBLIC
+    ${std_msgs_TARGETS} 
+    rclcpp::rclcpp
+)
 
 install(TARGETS
   lambda_publisher
