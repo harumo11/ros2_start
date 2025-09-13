@@ -21,7 +21,13 @@ public:
     {
         using namespace std::placeholders;
 
-        // Create an action server with the name "fibonacci"
+        RCLCPP_INFO_STREAM(this->get_logger(), "Creating Action Server");
+        this->action_server_ = rclcpp_action::create_server<Fibonacci>(
+            this,
+            "fibonacci",
+            std::bind(&MinimalActionServer::handle_goal, this, _1, _2),
+            std::bind(&MinimalActionServer::handle_cancel, this, _1),
+            std::bind(&MinimalActionServer::handle_accepted, this, _1));
     }
 
 private:
