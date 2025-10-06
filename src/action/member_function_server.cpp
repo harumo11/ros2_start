@@ -87,6 +87,8 @@ private:
         // check if goal is done
         if (rclcpp::ok()) {
             result->sequence = sequence;
+            goal_handle->succeed(result);
+            RCLCPP_INFO_STREAM(this->get_logger(), "Goal succeeded");
         }
     }
 

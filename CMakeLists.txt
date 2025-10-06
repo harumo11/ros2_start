@@ -12,6 +12,7 @@ find_package(rclcpp_action REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(ros2_start_interfaces REQUIRED)
 
+
 add_executable(lambda_publisher ./src/topic/publisher/lambda_publisher.cpp)
 target_link_libraries(lambda_publisher PUBLIC 
     ${std_msgs_TARGETS} 
@@ -31,14 +32,35 @@ target_link_libraries(member_function_action_server PUBLIC
     rclcpp_action::rclcpp_action
 )
 
+add_executable(member_function_action_client ./src/action/member_function_client.cpp)
+target_link_libraries(member_function_action_client PUBLIC
+    ${ros2_start_interfaces_TARGETS}
+    rclcpp::rclcpp
+    rclcpp_action::rclcpp_action
+)
+
 install(TARGETS
   lambda_publisher
   lambda_subscriber
   member_function_action_server
+  member_function_action_client
   DESTINATION lib/${PROJECT_NAME}
 )
 
-ament_package()
+
+# for test
+if(BUILD_TESTING)
+    find_package(ament_cmake_ros REQUIRED)
+    FILE(GLOB_RECURSE PY_TESTS test/*.py)
+    ament_add_pytest_test(test_node ${PY_TESTS})
+
+    set(ament_cmake_copyright_FOUND TRUE)
+    set(ament_cmake_cpplint_FOUND TRUE)
+    set(ament_cmake_flake8_FOUND TRUE)
+    set(ament_cmake_lint_cmake_FOUND TRUE)
+    set(ament_cmake_uncrustify_FOUND TRUE)
+endif()
+
 
 # copy compile_commands.json to workspace root
 file(CREATE_LINK 
@@ -46,3 +68,5 @@ file(CREATE_LINK
     ${CMAKE_SOURCE_DIR}/compile_command.json 
     SYMBOLIC
 )
+
+ament_package()
