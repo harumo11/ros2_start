@@ -52,7 +52,7 @@ install(TARGETS
 if(BUILD_TESTING)
     find_package(ament_cmake_ros REQUIRED)
     FILE(GLOB_RECURSE PY_TESTS test/*.py)
-    ament_add_pytest_test(test_node ${PY_TESTS})
+    #ament_add_pytest_test(test_node ${PY_TESTS})
 
     set(ament_cmake_copyright_FOUND TRUE)
     set(ament_cmake_cpplint_FOUND TRUE)

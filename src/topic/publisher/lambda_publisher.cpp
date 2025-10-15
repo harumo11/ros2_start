@@ -38,8 +38,5 @@ int main(int argc, char* argv[])
     std::cout << "Starting lambda_publisher node" << std::endl;
     auto node = std::make_shared<LambdaPublisher>();
 
-    while (rclcpp::ok()) {
-        rclcpp::spin_some(node);
-        RCLCPP_INFO_STREAM(node->get_logger(), "Spinning");
-    }
+    rclcpp::spin(node);
 }
